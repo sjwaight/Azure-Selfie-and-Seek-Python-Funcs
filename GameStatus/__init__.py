@@ -17,8 +17,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Read game configuration
         game_config = table_service.get_entity(os.environ.get("GAME_CONFIG_TABLENAME"), os.environ.get("GAME_CONFIG_PARTITIONKEY"), os.environ.get("GAME_CONFIG_ROWKEY"))
 
-        return func.HttpResponse(game_config["GameStatus"])
+        return func.HttpResponse(game_config["GameStatus"], headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"}))
        
     except Exception as e:
         logging.critical(e)
-        return func.HttpResponse("There was an error - please check logs", status_code=500)
+        return func.HttpResponse("There was an error - please check logs", status_code=500, headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"}))

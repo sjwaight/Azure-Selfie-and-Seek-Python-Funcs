@@ -52,7 +52,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 table_service.update_entity(os.environ.get("GAME_CONFIG_TABLENAME"), game_config)
 
                 # return result to client
-                return func.HttpResponse(json.dumps(game_config, default=datetimeconverter))
+                return func.HttpResponse(json.dumps(game_config, default=datetimeconverter), headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"}))
 
             else:
 
@@ -61,8 +65,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
 
             logging.info("No winners yet")            
-            return func.HttpResponse("No winner yet for the current round", status_code=404)
+            return func.HttpResponse("No winner yet for the current round", status_code=404, headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"}))
                    
     except Exception as e:
         logging.critical(e)
-        return func.HttpResponse("There was an error - please check logs", status_code=500)
+        return func.HttpResponse("There was an error - please check logs", status_code=500, headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"}))

@@ -30,4 +30,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
        
     except Exception as e:
         logging.critical(e)
-        return func.HttpResponse("There was an error - please check logs", status_code=500)
+        return func.HttpResponse("There was an error - please check logs", status_code=500, headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"})
