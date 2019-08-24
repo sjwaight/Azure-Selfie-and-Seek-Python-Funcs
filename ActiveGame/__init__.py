@@ -22,7 +22,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Read game configuration
         game_config = table_service.get_entity(os.environ.get("GAME_CONFIG_TABLENAME"), os.environ.get("GAME_CONFIG_PARTITIONKEY"), os.environ.get("GAME_CONFIG_ROWKEY"))
 
-        return func.HttpResponse(json.dumps(game_config, default=datetimeconverter))
+        return func.HttpResponse(json.dumps(game_config, default=datetimeconverter), headers= {
+                                                "Access-Control-Allow-Origin" : "*",
+                                                "Access-Control-Allow-Credentials" : "true",
+                                                "Access-Control-Allow-Methods" : "GET",
+                                                "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept"})
        
     except Exception as e:
         logging.critical(e)
